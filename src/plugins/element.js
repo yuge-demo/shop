@@ -1,0 +1,15 @@
+import Vue from 'vue'
+import {
+      Button,
+      Form,
+      FormItem,
+      Input,
+      Message
+} from 'element-ui'
+
+Vue.use(Form)
+Vue.use(Button)
+Vue.use(FormItem)
+Vue.use(Input)
+// 全局挂载
+Vue.prototype.$message = Message;
