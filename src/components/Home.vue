@@ -18,6 +18,7 @@
                               :collapse="isCollapse"
                               :collapse-transition="false"
                               router
+                              :default-active="activePath"
                         >
                               <!-- 一级菜单 -->
                               <el-submenu
@@ -35,6 +36,7 @@
                                           :index="'/' + subItem.path+''"
                                           v-for="subItem in item.children"
                                           :key="subItem.id"
+                                          @click="saveNavState('/' + subItem.path)"
                                     >
                                           <template slot="title">
                                                 <i class="el-icon-menu"></i>
@@ -66,11 +68,14 @@ export default {
                         "145": "iconfont iconicon-test"
                   },
                   //默认不折叠
-                  isCollapse: false
+                  isCollapse: false,
+                  //被激活的链接地址
+                  activePath: ""
             };
       },
       created() {
             this.getMenuList();
+            this.activePath = window.sessionStorage.getItem("activePath");
       },
       methods: {
             async getMenuList() {
@@ -79,7 +84,7 @@ export default {
                         return this.$message.error(res.meta.msg);
                   }
                   this.menuList = res.data;
-                  console.log(this.menuList);
+                  // console.log(this.menuList);
             },
             // 折叠左侧菜单栏
             buttonCollapse() {
@@ -90,6 +95,11 @@ export default {
             logout() {
                   window.sessionStorage.clear();
                   this.$router.push("/login");
+            },
+            //保存链接的激活状态
+            saveNavState(activePath) {
+                  window.sessionStorage.setItem("activePath", activePath);
+                  this.activePath = activePath;
             }
       }
 };

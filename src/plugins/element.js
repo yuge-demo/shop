@@ -11,7 +11,19 @@ import {
       Main,
       Menu,
       Submenu,
-      MenuItem
+      MenuItem,
+      Breadcrumb,
+      BreadcrumbItem,
+      Card,
+      Row,
+      Col,
+      Table,
+      TableColumn,
+      Pagination,
+      Switch,
+      Dialog,
+      Tooltip,
+      MessageBox
 } from 'element-ui'
 
 Vue.use(Form)
@@ -25,6 +37,18 @@ Vue.use(Main)
 Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItem)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(Card)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Pagination)
+Vue.use(Switch)
+Vue.use(Dialog)
+Vue.use(Tooltip)
 
 // 全局挂载
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox.confirm;
