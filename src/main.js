@@ -4,6 +4,7 @@ import router from './router'
 import "./assets/fonts/iconfont.css"
 import './plugins/element.js'
 import axios from 'axios'
+import TreeTable from 'vue-table-with-tree-grid'
 axios.defaults.baseURL = 'https://www.liulongbin.top:8888/api/private/v1/'
 
 //需要授权的api 必须在请求头只用Authorization字段提供令牌
@@ -15,7 +16,7 @@ axios.interceptors.request.use(config => {
 })
 Vue.prototype.$axios = axios
 
-
+Vue.component('tree-table', TreeTable)
 Vue.config.productionTip = false
 
 new Vue({

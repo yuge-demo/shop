@@ -20,4 +20,8 @@ export default {
       /* height: 100%; */
       min-width: 1366px;
 }
+
+.el-cascader-panel {
+      height: 200px;
+}
 </style>
