@@ -21,7 +21,7 @@
                         <template slot="isok" slot-scope="scope">
                               <i
                                     class="el-icon-success"
-                                    v-if="scope.row.cat_deleted === false"
+                                    v-if="scope.row.cat_deleted =attr_name= false"
                                     style="color:lightgreen;"
                               ></i>
                               <i class="el-icon-error" v-else style="color:lightgreen"></i>
@@ -88,7 +88,6 @@
                                     :props="{expandTrigger: 'hover',value:'cat_id',label: 'cat_name',children: 'children' }"
                                     @change="parentCateChange"
                                     clearable
-                                    change-on-select
                               ></el-cascader>
                         </el-form-item>
                   </el-form>
