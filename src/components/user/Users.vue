@@ -26,7 +26,7 @@
                         <el-col :span="4">
                               <el-button type="primary" @click="showSialogVisible=true">添加用户</el-button>
                         </el-col>
-                  </el-row>
+                  </el-row>getGoodsList
                   <el-table :data="userList" border style="width: 100%">
                         <el-table-column type="index" label="#"></el-table-column>
                         <el-table-column prop="username" label="姓名"></el-table-column>
@@ -53,7 +53,7 @@
                                           type="danger"
                                           icon="el-icon-delete"
                                           size="mini"
-                                          @click="showDeleteDialog(scope.row.id)"
+                                          @click="removeById(scope.row.id)"
                                     ></el-button>
                                     <el-tooltip
                                           effect="dark"

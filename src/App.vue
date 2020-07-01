@@ -24,4 +24,7 @@ export default {
 .el-cascader-panel {
       height: 200px;
 }
+.el-step__title {
+      font-size: 13px;
+}
 </style>
