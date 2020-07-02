@@ -33,7 +33,10 @@ import {
       Tabs,
       TabPane,
       Steps,
-      Step
+      Step,
+      CheckboxGroup,
+      Checkbox,
+      Upload
 } from 'element-ui'
 
 Vue.use(Form)
@@ -68,6 +71,10 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Step)
 Vue.use(Steps)
+Vue.use(CheckboxGroup)
+Vue.use(Checkbox)
+Vue.use(Upload)
+
 
 // 全局挂载
 Vue.prototype.$message = Message;
