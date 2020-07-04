@@ -26,7 +26,7 @@
                         <el-col :span="4">
                               <el-button type="primary" @click="showSialogVisible=true">添加用户</el-button>
                         </el-col>
-                  </el-row>getGoodsList
+                  </el-row>
                   <el-table :data="userList" border style="width: 100%">
                         <el-table-column type="index" label="#"></el-table-column>
                         <el-table-column prop="username" label="姓名"></el-table-column>
