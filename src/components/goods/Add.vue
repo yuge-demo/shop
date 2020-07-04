@@ -82,8 +82,8 @@
                                           :on-preview="handlePreview"
                                           :on-remove="handleRemove"
                                           list-type="picture"
-                                          headers="headerObj"
-                                          on-success="handleSuccess"
+                                          :headers="headerObj"
+                                          :on-success="handleSuccess"
                                     >
                                           <el-button size="small" type="primary">点击上传</el-button>
                                           <div
@@ -92,14 +92,22 @@
                                           >只能上传jpg/png文件，且不超过500kb</div>
                                     </el-upload>
                               </el-tab-pane>
-                              <el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
+                              <el-tab-pane label="商品内容" name="4">
+                                    <quill-editor v-model="addForm.goods_introduce"></quill-editor>
+                                    <el-button type="primary" class="btnAdd" @click="Add">添加商品</el-button>
+                              </el-tab-pane>
                         </el-tabs>
                   </el-form>
             </el-card>
+
+            <el-dialog title="图片预览" :visible.sync="previewDialogVisible" width="50%">
+                  <img :src="previewPath" class="previewImg" />
+            </el-dialog>
       </div>
 </template>
 
 <script>
+import _ from "loadsh";
 export default {
       data() {
             return {
@@ -110,7 +118,11 @@ export default {
                         goods_price: 0,
                         goods_weight: 0,
                         goods_number: 0,
-                        goods_cat: []
+                        goods_cat: [],
+                        //图片数组
+                        pics: [],
+                        goods_introduce: "",
+                        attrs: []
                   },
                   //添加表单验证规则对象
                   addFormRules: {
@@ -159,8 +171,8 @@ export default {
                   headerObj: {
                         Authorization: window.sessionStorage.getItem("token")
                   },
-
-                  pics:[]
+                  previewPath: "",
+                  previewDialogVisible: false
             };
       },
       created() {
@@ -227,13 +239,66 @@ export default {
                   }
             },
             //处理图片预览的效果
-            handlePreview() {},
+            handlePreview(file) {
+                  this.previewPath = file.response.data.url;
+                  this.previewDialogVisible = true;
+            },
             //删除照片的效果
-            handleRemove() {},
+            handleRemove(file) {
+                  // 1.获取将要删除的临时路径
+                  const filePath = file.response.data.tmp_path;
+                  // 2.从pics数组中，找到这个图片对应的索引值
+                  const i = this.addForm.pics.findIndex(
+                        x => x.pic === filePath
+                  );
+                  //3.调用数组的splice 方法 把图片信息对象，从pics数组中移除
+                  this.addForm.pics.splice(i, 1);
+            },
             //监听图片上传的成功事件
             handleSuccess(response) {
                   // 1.拼接图片信息对象
+                  const picInfo = {
+                        pic: response.data.tmp_path
+                  };
                   // 2.将图片信息对象push到pics数组中
+                  this.addForm.pics.push(picInfo);
+            },
+            Add() {
+                  this.$refs.addFormRef.vaildate(async vaild => {
+                        if (!vaild) {
+                              return this.$message.error("请填写必要的表单项");
+                        }
+                        const form = _.cloneDeep(this.addForm);
+                        form.goods_cat = form.goods_cat.join(",");
+                        //处理动态参数
+                        this.manyTableData.forEach(item => {
+                              const newInfo = {
+                                    attr_id: item.attr_id.join(""),
+                                    attr_value: item.attr_vals
+                              };
+                              this.addForm.attrs.push(newInfo);
+                        });
+                        //处理静态属性
+                        this.onlyTableData.forEach(item => {
+                              const newInfo = {
+                                    attr_id: item.attr_id,
+                                    attr_value: item.attr_vals
+                              };
+                              this.addForm.attrs.push(newInfo);
+                        });
+                        form.attrs = this.addForm.attrs;
+
+                        // 发起请求
+                        const { data: res } = await this.$axios.post(
+                              "goods",
+                              form
+                        );
+                        if (res.meta.status !== 201) {
+                              return this.$message.error("添加商品失败");
+                        }
+                        this.$message.success(res.meta.msg);
+                        this.$router.push("/goods");
+                  });
             }
       },
       computed: {
@@ -257,5 +322,12 @@ export default {
 }
 .el-checkbox {
       margin: 0 5px 0 0 !important;
+}
+.previewImg {
+      width: 100%;
+}
+.btnAdd {
+      margin-top: 15px;
+      float: right;
 }
 </style>

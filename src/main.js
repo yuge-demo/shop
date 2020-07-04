@@ -5,6 +5,12 @@ import "./assets/fonts/iconfont.css"
 import './plugins/element.js'
 import axios from 'axios'
 import TreeTable from 'vue-table-with-tree-grid'
+
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 axios.defaults.baseURL = 'https://www.liulongbin.top:8888/api/private/v1/'
 
 //需要授权的api 必须在请求头只用Authorization字段提供令牌
@@ -33,6 +39,7 @@ Vue.filter('dataFormat', function (originVal) {
   // return`yyyy-mm-dd  hh:mm:ss`
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 new Vue({
   router,
